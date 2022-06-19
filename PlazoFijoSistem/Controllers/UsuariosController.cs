@@ -24,9 +24,9 @@ namespace PlazoFijoSistem.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-              return _context.Usuarios != null ? 
-                          View(await _context.Usuarios.ToListAsync()) :
-                          Problem("Entity set 'BaseDeDatos.Usuarios'  is null.");
+            return _context.Usuarios != null ?
+                        View(await _context.Usuarios.ToListAsync()) :
+                        Problem("Entity set 'BaseDeDatos.Usuarios'  is null.");
         }
 
         // GET: Usuarios/Details/5
@@ -52,6 +52,7 @@ namespace PlazoFijoSistem.Controllers
         {
             return View();
         }
+
 
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -152,9 +153,14 @@ namespace PlazoFijoSistem.Controllers
             {
                 _context.Usuarios.Remove(usuarios);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        [AllowAnonymous] // este comando sirve para decir que solo el metodo puede usar cualquiera
+        public async Task<IActionResult> NoAutorizado() 
+        {
+            return View();
         }
 
         private bool UsuariosExists(int id)

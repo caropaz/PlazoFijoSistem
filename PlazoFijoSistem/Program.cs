@@ -39,7 +39,7 @@ app.UseAuthorization();
 static void ConfigurationCookie(CookieAuthenticationOptions option)
 {
     option.LoginPath = "/Login/Index";
-    option.AccessDeniedPath = "/Login/NoAutorizado"; // cuando hay acceso denegado
+    option.AccessDeniedPath = "/Usuarios/NoAutorizado"; // cuando hay acceso denegado
     option.LogoutPath = "/Login/Logout";
     option.ExpireTimeSpan = System.TimeSpan.FromMinutes(5);
 }
