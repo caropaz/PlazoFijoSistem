@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PlazoFijoSistem.Datos;
 using PlazoFijoSistem.Models;
 
+
 namespace PlazoFijoSistem.Controllers
 {
+    [Authorize(Roles ="ADMIN")]
     public class BancosController : Controller
     {
         private readonly BaseDeDatos _context;

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PlazoFijoSistem.Datos;
 
@@ -10,7 +11,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BaseDeDatos>(options =>
     options.UseSqlServer(@"filename=C:\Databases\PlazoFijoSistem.db")); //Aca especifican la ruta local donde crearon la BD
+//Cookie: es lo que el servidor manda al explorador, para tenerlo del lado del explorador
+// hacer la configuracion del autorize con cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(ConfigurationCookie);  
 
+//
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,7 +32,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+// aca esta el metodo static que necesitan las cookie, esto sirve para devolver las opciones de los siguientes casos
+static void ConfigurationCookie(CookieAuthenticationOptions option)
+{
+    option.LoginPath = "/Login/Index";
+    option.AccessDeniedPath = "/Login/NoAutorizado"; // cuando hay acceso denegado
+    option.LogoutPath = "/Login/Logout";
+    option.ExpireTimeSpan = System.TimeSpan.FromMinutes(5);
+}
 
 app.MapControllerRoute(
     name: "default",

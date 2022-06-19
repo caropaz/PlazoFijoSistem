@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlazoFijoSistem.Datos;
 using PlazoFijoSistem.Models;
 
 namespace PlazoFijoSistem.Controllers
 {
+    [Authorize(Roles = "ADMIN, USER")]
     public class PlazosController : Controller
     {
         private readonly BaseDeDatos _context;
