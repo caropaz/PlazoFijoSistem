@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form method="post">
+      <input type="text" id="login" class="fadeIn second" name="dni" placeholder="Documento">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña">
+      <input type="submit" class="fadeIn fourth" value="Ingresar" style="margin-bottom:50px; margin-top:50px">
+    </form>
+
+
+
+    <div id="formFooter">
+      <p><a asp-area="" asp-controller="SignUp" asp-action="Index">¿No tiene cuenta?</a></p>
+    </div>
