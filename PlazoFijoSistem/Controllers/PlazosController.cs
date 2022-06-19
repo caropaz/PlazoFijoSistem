@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlazoFijoSistem.Datos;
 using PlazoFijoSistem.Models;
@@ -22,9 +17,9 @@ namespace PlazoFijoSistem.Controllers
         // GET: Plazos
         public async Task<IActionResult> Index()
         {
-              return _context.Plazos != null ? 
-                          View(await _context.Plazos.ToListAsync()) :
-                          Problem("Entity set 'BaseDeDatos.Plazos'  is null.");
+            return _context.Plazos != null ?
+                        View(await _context.Plazos.ToListAsync()) :
+                        Problem("Entity set 'BaseDeDatos.Plazos'  is null.");
         }
 
         // GET: Plazos/Details/5
@@ -56,7 +51,7 @@ namespace PlazoFijoSistem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Monto,Dias")] Plazos plazos)
+        public async Task<IActionResult> Create([Bind("Id,Monto,Dias,Bancos")] Plazos plazos)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +83,7 @@ namespace PlazoFijoSistem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Monto,Dias")] Plazos plazos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Monto,Dias,Bancos")] Plazos plazos)
         {
             if (id != plazos.Id)
             {
@@ -150,14 +145,14 @@ namespace PlazoFijoSistem.Controllers
             {
                 _context.Plazos.Remove(plazos);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PlazosExists(int id)
         {
-          return (_context.Plazos?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Plazos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

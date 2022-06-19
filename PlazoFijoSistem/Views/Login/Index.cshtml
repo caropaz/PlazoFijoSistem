@@ -4,13 +4,13 @@
 }
 
 <form method="post">
-      <input type="text" id="login" class="fadeIn second" name="dni" placeholder="Documento">
-      <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña">
-      <input type="submit" class="fadeIn fourth" value="Ingresar" style="margin-bottom:50px; margin-top:50px">
+      <input type="text" id="login"  name="Email" placeholder="Email">
+      <input type="password" id="contraseña"  name="Password" placeholder="Contraseña">
+      <input type="submit"  value="Ingresar" style="margin-bottom:40px; margin-top:40px">
     </form>
 
 
 
-    <div id="formFooter">
-      <p><a asp-area="" asp-controller="SignUp" asp-action="Index">¿No tiene cuenta?</a></p>
+    <div>
+      <p><a asp-area="" asp-controller="Usuarios" asp-action="Create">Registrese</a></p>
     </div>

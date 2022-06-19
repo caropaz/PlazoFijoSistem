@@ -8,6 +8,6 @@ namespace PlazoFijoSistem.Models
         public int Id { get; set; }
         public int Monto { get; set; }
         public int Dias { get; set; }
-        public Bancos Bancos { get; set; }
+        public String Bancos { get; set; }
     }
 }
