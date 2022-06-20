@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +11,7 @@ using PlazoFijoSistem.Models;
 
 namespace PlazoFijoSistem.Controllers
 {
-    public class PlazosController : Controller
+    public class PlazosController : ControladorBase
     {
         private readonly BaseDeDatos _context;
 
@@ -21,9 +22,35 @@ namespace PlazoFijoSistem.Controllers
 
         // GET: Plazos
         public async Task<IActionResult> Index()
-        {
-            var baseDeDatos = _context.Plazos.Include(p => p.Banco).Include(p => p.Usuario);
-            return View(await baseDeDatos.ToListAsync());
+        { 
+            // aca se obtiene la claim principal, del idUsuario
+            //var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            //aca dice que el id del usuario --> se recupera del login
+
+            int idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            string rol = User.FindFirstValue(ClaimTypes.Role);
+
+            if (rol.Equals("ADMIN")) 
+            {
+                var baseDeDatosDeUsuario = _context
+                .Plazos
+                .Include(p => p.Banco)
+                .Include(p => p.Usuario);
+                return View(await baseDeDatosDeUsuario.ToListAsync());
+            }
+            else
+            {
+                var baseDeDatosDeUsuario = _context
+                .Plazos
+                .Where(o => o.UsuarioId == idUsuario)
+                .Include(p => p.Banco)
+                .Include(p => p.Usuario);
+                return View(await baseDeDatosDeUsuario.ToListAsync());
+
+            }
+            
+
+            
         }
 
         // GET: Plazos/Details/5
@@ -50,7 +77,15 @@ namespace PlazoFijoSistem.Controllers
         public IActionResult Create()
         {
             ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "RazonSocial");
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Email");
+            if (this.EsAdmin)
+            {
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Email");
+            }
+            else 
+            {
+                ViewData["UsuarioId"] = new SelectList(_context.Usuarios.Where(o=>o.Id == IdUsuario).ToList(), "Id", "Email");
+            }
+            
             return View();
         }
 
