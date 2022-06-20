@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using PlazoFijoSistem.Models;
 
 namespace PlazoFijoSistem.Controllers
 {
+    [Authorize(Roles = "ADMIN, USER")]
     public class PlazosController : ControladorBase
     {
         private readonly BaseDeDatos _context;
@@ -200,6 +202,40 @@ namespace PlazoFijoSistem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: Plazos/Calcular
+        public IActionResult Calcular()
+            {
+            ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "RazonSocial");
+            
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Calcular([Bind("Id,Monto,Dias,BancoId,UsuarioId")] Plazos plazos)
+        {
+
+            
+
+            if (ModelState.IsValid)
+            {
+                var banco = await _context.Bancos
+                .FirstOrDefaultAsync(m => m.id == plazos.BancoId);
+
+                var monto = plazos.Monto;
+                var dias = plazos.Dias;
+                var tasa = banco.Porcentaje;
+                var resultadoAnual =  365/tasa;
+                var resultadofinal = (monto/(resultadoAnual * dias))+monto ;
+                ViewBag.Resultado = resultadofinal;
+            }
+
+            
+            return View(plazos);
+        }
+
 
         private bool PlazosExists(int id)
         {
