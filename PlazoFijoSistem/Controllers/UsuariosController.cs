@@ -47,6 +47,7 @@ namespace PlazoFijoSistem.Controllers
             return View(usuarios);
         }
 
+        [AllowAnonymous]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
@@ -57,6 +58,7 @@ namespace PlazoFijoSistem.Controllers
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Apellido,Nombre,Email,Password")] Usuarios usuarios)

@@ -11,6 +11,6 @@ namespace PlazoFijoSistem.Models
 
         public decimal Porcentaje { get; set; }
 
-        
+        public virtual IEnumerable<Plazos>? plazos { get; set; }
     }
 }

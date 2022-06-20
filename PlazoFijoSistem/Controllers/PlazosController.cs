@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PlazoFijoSistem.Datos;
 using PlazoFijoSistem.Models;
 
 namespace PlazoFijoSistem.Controllers
 {
-    [Authorize(Roles = "ADMIN, USER")]
     public class PlazosController : Controller
     {
         private readonly BaseDeDatos _context;
@@ -19,9 +22,8 @@ namespace PlazoFijoSistem.Controllers
         // GET: Plazos
         public async Task<IActionResult> Index()
         {
-            return _context.Plazos != null ?
-                        View(await _context.Plazos.ToListAsync()) :
-                        Problem("Entity set 'BaseDeDatos.Plazos'  is null.");
+            var baseDeDatos = _context.Plazos.Include(p => p.Banco).Include(p => p.Usuario);
+            return View(await baseDeDatos.ToListAsync());
         }
 
         // GET: Plazos/Details/5
@@ -33,6 +35,8 @@ namespace PlazoFijoSistem.Controllers
             }
 
             var plazos = await _context.Plazos
+                .Include(p => p.Banco)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plazos == null)
             {
@@ -45,6 +49,8 @@ namespace PlazoFijoSistem.Controllers
         // GET: Plazos/Create
         public IActionResult Create()
         {
+            ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "RazonSocial");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Email");
             return View();
         }
 
@@ -53,7 +59,7 @@ namespace PlazoFijoSistem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Monto,Dias,Bancos")] Plazos plazos)
+        public async Task<IActionResult> Create([Bind("Id,Monto,Dias,BancoId,UsuarioId")] Plazos plazos)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +67,8 @@ namespace PlazoFijoSistem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "id", plazos.BancoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id", plazos.UsuarioId);
             return View(plazos);
         }
 
@@ -77,6 +85,8 @@ namespace PlazoFijoSistem.Controllers
             {
                 return NotFound();
             }
+            ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "id", plazos.BancoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id", plazos.UsuarioId);
             return View(plazos);
         }
 
@@ -85,7 +95,7 @@ namespace PlazoFijoSistem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Monto,Dias,Bancos")] Plazos plazos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Monto,Dias,BancoId,UsuarioId")] Plazos plazos)
         {
             if (id != plazos.Id)
             {
@@ -112,6 +122,8 @@ namespace PlazoFijoSistem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BancoId"] = new SelectList(_context.Bancos, "id", "id", plazos.BancoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id", plazos.UsuarioId);
             return View(plazos);
         }
 
@@ -124,6 +136,8 @@ namespace PlazoFijoSistem.Controllers
             }
 
             var plazos = await _context.Plazos
+                .Include(p => p.Banco)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plazos == null)
             {
@@ -147,14 +161,14 @@ namespace PlazoFijoSistem.Controllers
             {
                 _context.Plazos.Remove(plazos);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PlazosExists(int id)
         {
-            return (_context.Plazos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Plazos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

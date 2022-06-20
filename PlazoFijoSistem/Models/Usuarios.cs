@@ -11,5 +11,6 @@ namespace PlazoFijoSistem.Models
         public String Email { get; set; } 
         public String Password { get; set; }
 
+        public virtual IEnumerable<Plazos>? plazos { get; set; }
     }
 }

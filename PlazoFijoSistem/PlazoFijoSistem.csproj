@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\Plazos\Create.cshtml" />
-    <None Include="Views\Plazos\Delete.cshtml" />
-    <None Include="Views\Plazos\Details.cshtml" />
-    <None Include="Views\Plazos\Edit.cshtml" />
-    <None Include="Views\Plazos\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">

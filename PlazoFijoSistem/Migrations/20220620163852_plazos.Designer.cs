@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlazoFijoSistem.Datos;
 
@@ -10,9 +11,10 @@ using PlazoFijoSistem.Datos;
 namespace PlazoFijoSistem.Migrations
 {
     [DbContext(typeof(BaseDeDatos))]
-    partial class BaseDeDatosModelSnapshot : ModelSnapshot
+    [Migration("20220620163852_plazos")]
+    partial class plazos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

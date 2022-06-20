@@ -10,7 +10,7 @@ namespace PlazoFijoSistem.Datos
         }
         public DbSet<Usuarios> Usuarios { get; set; }
 
-         public DbSet<Plazos> Plazos { get; set; }
+        public DbSet<Plazos> Plazos { get; set; }
 
         public DbSet<Bancos> Bancos { get; set; }
 
