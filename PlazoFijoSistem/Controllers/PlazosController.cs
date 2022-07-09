@@ -114,7 +114,7 @@ namespace PlazoFijoSistem.Controllers
         {
             if (id == null || _context.Plazos == null)
             {
-                return NotFound();
+                return  NotFound();
             }
 
             var plazos = await _context.Plazos.FindAsync(id);

@@ -36,14 +36,21 @@ namespace PlazoFijoSistem.Controllers
             {
                 return NotFound();
             }
-
-            var usuarios = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+             var usuarios = await _context.Usuarios
+                 .FirstOrDefaultAsync(m => m.Id == id);
+            /*var usuarios = _context
+                  .Plazos
+                  .Where(o => o.UsuarioId == id)
+                  .Include(p => p.Banco)
+                  .Include(p => p.Usuario);*/
+            
+           
             if (usuarios == null)
             {
                 return NotFound();
             }
 
+           
             return View(usuarios);
         }
 

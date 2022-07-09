@@ -73,6 +73,7 @@ namespace PlazoFijoSistem.Controllers
         // GET: Bancos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null || _context.Bancos == null)
             {
                 return NotFound();
@@ -124,6 +125,12 @@ namespace PlazoFijoSistem.Controllers
         // GET: Bancos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var plazos = await _context.Plazos
+                .FirstOrDefaultAsync(m => m.BancoId == id);
+            if (plazos != null)
+            {
+                return NotFound();
+            }
             if (id == null || _context.Bancos == null)
             {
                 return NotFound();
@@ -162,5 +169,6 @@ namespace PlazoFijoSistem.Controllers
         {
           return (_context.Bancos?.Any(e => e.id == id)).GetValueOrDefault();
         }
+        
     }
 }
