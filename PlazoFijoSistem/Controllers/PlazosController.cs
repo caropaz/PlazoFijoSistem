@@ -66,6 +66,7 @@ namespace PlazoFijoSistem.Controllers
             var plazos = await _context.Plazos
                 .Include(p => p.Banco)
                 .Include(p => p.Usuario)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plazos == null)
             {
