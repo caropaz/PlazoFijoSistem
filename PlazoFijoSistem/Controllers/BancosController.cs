@@ -129,7 +129,7 @@ namespace PlazoFijoSistem.Controllers
                 .FirstOrDefaultAsync(m => m.BancoId == id);
             if (plazos != null)
             {
-                return NotFound();
+                return View("NoAutoriza", "Bancos");
             }
             if (id == null || _context.Bancos == null)
             {

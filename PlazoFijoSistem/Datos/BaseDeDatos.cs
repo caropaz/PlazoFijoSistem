@@ -20,5 +20,7 @@ namespace PlazoFijoSistem.Datos
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-1CM86AD\CAROLINAPAZ;Database=PlazoFijoSistem;Trusted_Connection=True;MultipleActiveResultSets=true;");
 
         }
+
+
     }
 }

@@ -1,14 +1,33 @@
-﻿
-@model IEnumerable<PlazoFijoSistem.Models.Plazos>
+﻿@model IEnumerable<PlazoFijoSistem.Models.Plazos> 
+ 
+@{ 
+    ViewBag.Title = "Index"; 
+} 
+ 
+<h2>Index</h2> 
+ 
+<a asp-action="Index">volver a buscar</a>
+@*-------------------------------CodigoDeBusqueda--------------------------------*@
+ 
+     @using (Html.BeginForm()){  
+         
+         <div>
+            <p> Buscador por email de usuario: @Html.TextBox("email","") <br />   
+               <input type="submit" value="Buscar" />
+         </div>
+         <div>
+            <p> Buscador por nombre de banco: @Html.TextBox("banco","") <br />   
+               <input type="submit" value="Buscar" />
+         </div>
+        } 
+        
 
 
-@{
-    ViewData["Title"] = "Details";
-}
+@*-------------------------------TerminaCodigoDeBusqueda--------------------------------*@
 
-<h1>Details</h1>
-
-<div>
+@if (Model != null)
+{
+    <div>
     <h4>Usuarios</h4>
     <hr />
     <dl class="row">
@@ -50,33 +69,15 @@
         </dt>
 
         <dt class = "col-sm-2">
-
-
             @Html.DisplayFor(modelItem => item.Banco.RazonSocial)
-
-
         </dt>
-
         <dt class = "col-sm-2">
-
-
             @Html.DisplayFor(modelItem => item.Monto)
-
-
         </dt>
         <dt class = "col-sm-2">
-
             @Html.DisplayFor(modelItem => item.Dias)
-
         </dt>
         }
-
-       
-        
-
     </dl>
 </div>
-<div>
-    
-    <a asp-action="Index">Back to List</a>
-</div>
+}
